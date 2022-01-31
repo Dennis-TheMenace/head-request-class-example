@@ -10,11 +10,19 @@
       
     };
 
-    const requestUpdate = (userForm) => {
+    const requestUpdate = async (userForm) => {
       const url = userForm.querySelector('#urlField').value;
       const method = userForm.querySelector('#methodSelect').value;
       
+      let response = await fetch(url,
+      {
+        method,
+        headers: {
+          'Accept': 'applocation/json',
+        },
+      });
 
+      handleResponse(response, method !== 'head');
     };
 
 
