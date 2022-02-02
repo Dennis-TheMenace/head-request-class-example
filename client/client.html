@@ -5,9 +5,37 @@
   <link rel="stylesheet" type="text/css" href="/style.css">
   
   <script>
-    const handleResponse = (response, parseResponse) => {
+    const handleResponse = async(response, parseResponse) => {
       const content = document.querySelector('#content');
       
+      switch(response.status)
+      {
+        case 200:
+          content.innerHTML = '<b>Success</b>'
+          break;
+        case 201:
+          content.innerHTML = '<b>Created</b>'
+          break;
+        case 400:
+          content.innerHTML = '<b>Bad Request</b>'
+          break;
+        case 404:
+          content.innerHTML = '<b>Resource Not Found</b>'
+          break;
+        default:
+          content.innerHTML = '<p>Response code not implemented by client</p>'
+          break;
+      }
+
+      if(parseResponse)
+      {
+        const resText = await response.text();
+        content.innerHTML += `<p>${resText}</p>`;
+      }
+      else
+      {
+        content.innerHTML += '<p>Meta Data Recieved</p>';
+      }
     };
 
     const requestUpdate = async (userForm) => {
